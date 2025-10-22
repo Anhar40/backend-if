@@ -5,17 +5,26 @@ const mysql = require("mysql2");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || origin === "https://hmps-informatika.vercel.app") {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed"));
+      }
+    },
+    credentials: true,
+    optionsSuccessStatus: 200, // untuk preflight cepat
+  })
+);
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(
-  cors({
-    origin: "https://hmps-informatika.vercel.app",
-    credentials: true,
-  })
-);
+
 
 
 // Konfigurasi koneksi database dari .env
