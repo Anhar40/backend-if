@@ -18,7 +18,7 @@ app.use(
     optionsSuccessStatus: 200, // untuk preflight cepat
   })
 );
-
+app.options("*", cors());
 const app = express();
 const PORT = process.env.PORT || 3000;
 
