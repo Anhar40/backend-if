@@ -10,7 +10,26 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+const allowedOrigins = [
+  "https://hmps-informatika.vercel.app",
+];
+
+// Middleware CORS khusus
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Jika request tanpa origin (misal Postman / server internal)
+      if (!origin) return callback(null, true);
+      // Cek apakah origin termasuk dalam daftar yang diizinkan
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Akses CORS tidak diizinkan dari origin ini"));
+      }
+    },
+    credentials: true, // jika kamu kirim cookie / token
+  })
+);
 
 // Konfigurasi koneksi database dari .env
 const db = mysql.createConnection({
