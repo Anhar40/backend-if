@@ -5,23 +5,37 @@ const mysql = require("mysql2");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Konfigurasi CORS
-app.use(
-  cors({
-    origin: "https://hmps-informatika.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
-  })
-);
-
-app.options("*", cors());
+// Middleware
 app.use(express.json());
+// 1. Definisikan domain yang diizinkan (whitelist)
+const allowedOrigins = [
+  'https://hmps-informatika.vercel.app',
+  'http://localhost:3000', // Contoh untuk pengembangan lokal
+  'https://client-domain-b.net'
+];
 
+// 2. Konfigurasi opsi CORS
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Cek apakah origin yang meminta ada di dalam daftar yang diizinkan
+    // Permintaan tanpa origin (misalnya: dari Postman, file:///) akan diizinkan secara default
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true); // Izinkan
+    } else {
+      // Tolak akses dengan error
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  // Opsi tambahan:
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Izinkan cookie atau header otentikasi
+};
 
+// 3. Terapkan CORS dengan opsi yang dikonfigurasi
+app.use(cors(corsOptions));
 
 // Konfigurasi koneksi database dari .env
 const db = mysql.createConnection({
