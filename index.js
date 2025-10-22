@@ -12,9 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 // 1. Definisikan domain yang diizinkan (whitelist)
 const allowedOrigins = [
-  'https://hmps-informatika.vercel.app',
-  'http://localhost:5500', // Contoh untuk pengembangan lokal
-  'https://client-domain-b.net'
+  'https://hmps-informatika.vercel.app'
 ];
 
 // 2. Konfigurasi opsi CORS
