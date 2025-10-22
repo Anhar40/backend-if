@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 app.use(
   cors({
     origin: "https://hmps-informatika.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
