@@ -13,7 +13,7 @@ app.use(express.json());
 // 1. Definisikan domain yang diizinkan (whitelist)
 const allowedOrigins = [
   'https://hmps-informatika.vercel.app',
-  'http://localhost:3000', // Contoh untuk pengembangan lokal
+  'http://localhost:5500', // Contoh untuk pengembangan lokal
   'https://client-domain-b.net'
 ];
 
